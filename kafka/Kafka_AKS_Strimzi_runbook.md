@@ -308,6 +308,24 @@ kubectl apply -f kafka-brokers.yaml
 
 The following matches the lab's Kafka 4.2.0 configuration. Revalidate the version before reuse after a Strimzi upgrade.
 
+Before selecting a Kafka version, inspect the versions supported by your installed Strimzi release:
+
+```sh
+kubectl get configmap \
+-n kafka strimzi-cluster-operator \
+-o yaml
+```
+Save the following as kafka-cluster.yaml. Replace <SUPPORTED_KAFKA_VERSION> with a version supported by your installed operator.
+
+```
+kubectl get kafka sre-kafka -n kafka \
+  -o jsonpath='{.spec.kafka.version}'
+echo
+````
+```
+4.2.0  # strimzi version output 
+```
+
 ```yaml
 apiVersion: kafka.strimzi.io/v1
 kind: Kafka
@@ -316,7 +334,7 @@ metadata:
   namespace: kafka
 spec:
   kafka:
-    version: 4.2.0
+    version: 4.2.0  #change this version 
     metadataVersion: 4.2-IV1
     listeners:
       - name: plain
